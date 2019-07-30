@@ -3,12 +3,15 @@
 
 #include <QMainWindow>
 
+
 namespace Ui {
 class MainWindow;
 }
 
 class WalletWidget;
 class MinerWidget;
+class MinerThread;
+class QCloseEvent;
 
 class MainWindow : public QMainWindow
 {
@@ -26,8 +29,15 @@ private slots:
     void onStartMiner();
 
     void onAddDir();
+
+    void onSearchAddress();
+
 private:
     void loadWallet();
+
+    void rewriteConfigure();
+
+    void closeEvent(QCloseEvent *);
 
 private:
     Ui::MainWindow *ui;
@@ -36,6 +46,7 @@ private:
     QString cliPath;
     QString minerPath;
     QString cfgPath;
+    MinerThread *thd;
 };
 
 #endif // MAINWINDOW_H

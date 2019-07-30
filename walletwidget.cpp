@@ -5,10 +5,11 @@
 #include <process.h>
 #include <qdebug.h>
 
-WalletWidget::WalletWidget(QString path, QWidget *parent) :
+WalletWidget::WalletWidget(QString path, QString cliPath, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::WalletWidget),
-    path(path)
+    path(path),
+    cliPath(cliPath)
 {
     ui->setupUi(this); 
     QObject::connect(&process, SIGNAL(readyReadStandardOutput()), this, SLOT(writeOutput()));
@@ -23,7 +24,8 @@ WalletWidget::~WalletWidget()
 void WalletWidget::Close()
 {
     if (process.isOpen()) {
-        process.kill();
+        StopServer(cliPath);
+        process.waitForFinished(-1);
         qDebug() << "wallet close " << process.waitForFinished();
     }
 }

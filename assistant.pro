@@ -28,12 +28,14 @@ SOURCES += \
         common.cpp \
         main.cpp \
         mainwindow.cpp \
+        minerthread.cpp \
         minerwidget.cpp \
         walletwidget.cpp
 
 HEADERS += \
         common.h \
         mainwindow.h \
+        minerthread.h \
         minerwidget.h \
         walletwidget.h
 
@@ -46,3 +48,8 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES +=
+
+RESOURCES += \
+    src.qrc

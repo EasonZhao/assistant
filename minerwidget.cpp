@@ -44,9 +44,9 @@ void MinerWidget::rewriteConfigure()
         qDebug() << doc["Port"].toInt() << doc["OwnerAddr"].toString() << doc["Paths"].toArray();
         //write
         auto obj = doc.object();
-        obj["Port"] = 18832;
+        obj["Port"] = 18332;
         obj["OwnerAddr"] = addr;
-        obj["UpdaterPort"] = 18832;
+        obj["UpdaterPort"] = 18332;
         QJsonArray jarr;
         for (auto dir : dirs) {
             jarr.append(dir);
@@ -76,7 +76,6 @@ void MinerWidget::closeEvent(QCloseEvent *event)
 
 void MinerWidget::showEvent(QShowEvent *event)
 {
-
     process.setWorkingDirectory( QDir::currentPath());
     process.start(minerPath, QProcess::ReadOnly);
     QWidget::showEvent(event);

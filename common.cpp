@@ -23,3 +23,25 @@ QString GetAddressPlotID(const QString program, const QString addr)
     }
     return "";
 }
+
+void StopServer(const QString program)
+{
+    QStringList arguments(WalletParams);
+    arguments.append("stop");
+    QProcess process;
+    process.start(program, arguments);
+    process.waitForFinished();
+    return;
+}
+
+int GetBlockCount(const QString program)
+{
+    QStringList arguments(WalletParams);
+    arguments.append("getblockcount");
+    QProcess process;
+    process.start(program, arguments);
+    process.waitForFinished();
+    auto ba = process.readAllStandardOutput();
+    QString str(ba);
+    return str.toInt();
+}

@@ -16,7 +16,7 @@ class WalletWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit WalletWidget(QString path, QWidget *parent = nullptr);
+    explicit WalletWidget(QString path, QString cliPath, QWidget *parent = nullptr);
     ~WalletWidget();
 
     void Close();
@@ -34,6 +34,7 @@ private:
     Ui::WalletWidget *ui;
     QProcess process;
     QString path;
+    QString cliPath;
 };
 
 #endif // WALLETWIDGET_H
