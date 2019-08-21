@@ -1,9 +1,10 @@
-#include "mainwindow.h"
+﻿#include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "walletwidget.h"
 #include "minerwidget.h"
 #include "common.h"
 #include "minerthread.h"
+#include "lavahelper.h"
 
 #include <qdir.h>
 #include <qdebug.h>
@@ -15,6 +16,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QDesktopServices>
+#include <QTimer>
 
 static QString version("v1.0.0");
 
@@ -29,6 +31,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //load
     loadWallet();
     setWindowTitle("lava miner assistant " + version);
+    scheduleUpdate();
 }
 
 MainWindow::~MainWindow()
@@ -58,17 +61,19 @@ void MainWindow::loadWallet()
 {
     auto walletPath = QDir::currentPath() + "/lavad.exe";
     cliPath = QDir::currentPath() + "/lava-cli.exe";
+    _helper = std::make_unique<LavaHelper>(cliPath);
     if (QFile(walletPath).exists() && QFile(cliPath).exists()) {
         ui->lineEdit->setText(walletPath);
     } else {
-        showMessageBox("Can't find lavad,please select one.");
+        showMessageBox(QString::fromWCharArray(L"找不到钱包程序, 请将Lava钱包程序放在助手所在目录"));
+
     }
     minerPath = QDir::currentPath() + "/lava-miner.exe";
     cfgPath = QDir::currentPath() + "/miner.conf";
     if (QFile(minerPath).exists() && QFile(cliPath).exists()) {
         ui->lineEdit_2->setText(minerPath);
     } else {
-        showMessageBox("Can't find miner,please select one.");
+        showMessageBox(QString::fromWCharArray(L"无法找到Lava的命令行程序, 请将lava-cli.exe放在助手所在目录"));
     }
     //load miner
     QFile file(cfgPath);
@@ -180,4 +185,30 @@ void MainWindow::onSearchAddress()
 {
     QString url("http://testnet-explorer.lavatech.org/address/" + ui->lineEdit_3->text());
     QDesktopServices::openUrl(QUrl(url));
+}
+
+void MainWindow::on_loadWalletClciked()
+{
+    qDebug() << "on wallet clicked";
+}
+
+void MainWindow::scheduleUpdate() {
+    QTimer* timer = new QTimer(this);
+    connect(timer, &QTimer::timeout, this, &MainWindow::onUpdate);
+
+    timer->start(5000);
+}
+
+void MainWindow::onUpdate() {
+  qDebug() << "updating...";
+  if (!_helper) {
+    qDebug() << "helper not ready...";
+    return;
+  }
+  auto balance = _helper->getBalance();
+  QString str;
+  if(balance >= 0) {
+    str = QString("%1 lv").arg(balance, 4, 'f', 8, ' ');
+  }
+  ui->leBalance->setText(str);
 }

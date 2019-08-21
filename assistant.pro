@@ -26,6 +26,7 @@ CONFIG += c++11
 
 SOURCES += \
         common.cpp \
+        lavahelper.cpp \
         main.cpp \
         mainwindow.cpp \
         minerthread.cpp \
@@ -34,6 +35,7 @@ SOURCES += \
 
 HEADERS += \
         common.h \
+        lavahelper.h \
         mainwindow.h \
         minerthread.h \
         minerwidget.h \

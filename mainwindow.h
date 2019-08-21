@@ -3,7 +3,6 @@
 
 #include <QMainWindow>
 
-
 namespace Ui {
 class MainWindow;
 }
@@ -12,6 +11,7 @@ class WalletWidget;
 class MinerWidget;
 class MinerThread;
 class QCloseEvent;
+class LavaHelper;
 
 class MainWindow : public QMainWindow
 {
@@ -32,12 +32,17 @@ private slots:
 
     void onSearchAddress();
 
+    void on_loadWalletClciked();
+    void onUpdate();
+
 private:
     void loadWallet();
 
     void rewriteConfigure();
 
     void closeEvent(QCloseEvent *);
+
+    void scheduleUpdate();
 
 private:
     Ui::MainWindow *ui;
@@ -47,6 +52,7 @@ private:
     QString minerPath;
     QString cfgPath;
     MinerThread *thd;
+    std::unique_ptr<LavaHelper> _helper;
 };
 
 #endif // MAINWINDOW_H

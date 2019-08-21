@@ -85,13 +85,6 @@
       <item>
        <widget class="QLineEdit" name="lineEdit"/>
       </item>
-      <item>
-       <widget class="QPushButton" name="loadWalletBtn">
-        <property name="text">
-         <string>浏览</string>
-        </property>
-       </widget>
-      </item>
      </layout>
     </widget>
    </widget>
@@ -99,7 +92,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>140</y>
+      <y>120</y>
       <width>761</width>
       <height>201</height>
      </rect>
@@ -250,8 +243,8 @@
    <widget class="QPushButton" name="pushButton_5">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>390</y>
+      <x>30</x>
+      <y>500</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -272,6 +265,54 @@
     <property name="text">
      <string>mjuGiwTBtMep2uaooQVWrzRjBAJD4AVfPi </string>
     </property>
+   </widget>
+   <widget class="QGroupBox" name="groupWallet">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>330</y>
+      <width>461</width>
+      <height>121</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>钱包信息</string>
+    </property>
+    <widget class="QWidget" name="horizontalLayoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>20</y>
+       <width>221</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_5">
+      <item>
+       <widget class="QLabel" name="balance">
+        <property name="toolTip">
+         <string>默认钱包的余额信息</string>
+        </property>
+        <property name="text">
+         <string>钱包余额:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="leBalance">
+        <property name="text">
+         <string/>
+        </property>
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+        <property name="placeholderText">
+         <string>余额未加载..</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
