@@ -31,7 +31,6 @@ MainWindow::MainWindow(QWidget *parent) :
     //load
     loadWallet();
     setWindowTitle("lava miner assistant " + version);
-    scheduleUpdate();
 }
 
 MainWindow::~MainWindow()
@@ -43,6 +42,7 @@ void MainWindow::startStopWallet()
 {
     if (!wallet) {
         wallet = new WalletWidget(ui->lineEdit->text(), cliPath);
+        scheduleUpdate();
     }
     if (wallet->isHidden()) {
         wallet->show();
@@ -57,11 +57,17 @@ void showMessageBox(QString msg) {
     msgBox.exec();
 }
 
+template<typename T, typename... Ts>
+std::unique_ptr<T> make_unique(Ts&&... params)
+{
+    return std::unique_ptr<T>(new T(std::forward<Ts>(params)...));
+}
+
 void MainWindow::loadWallet()
 {
     auto walletPath = QDir::currentPath() + "/lavad.exe";
     cliPath = QDir::currentPath() + "/lava-cli.exe";
-    _helper = std::make_unique<LavaHelper>(cliPath);
+    _helper = make_unique<LavaHelper>(cliPath);
     if (QFile(walletPath).exists() && QFile(cliPath).exists()) {
         ui->lineEdit->setText(walletPath);
     } else {
@@ -199,16 +205,47 @@ void MainWindow::scheduleUpdate() {
     timer->start(5000);
 }
 
+void MainWindow::updateSlotInfo()
+{
+    auto info = _helper->getSlotInfo();
+    ui->labIndex->setText(QString("周期：  %1").arg(info["index"].toInt()));
+    ui->labPrice->setText(QString("价格：  %1lv").arg(info["price"].toDouble()/100000000));
+    auto arr = _helper->getFirestone(ui->lineEdit_3->text());
+    int useable{0}, immaturate{0}, overdue{0};
+    for(auto iter = arr.begin(); iter != arr.end(); iter++) {
+        Q_ASSERT(iter->isObject());
+        auto fs = iter->toObject();
+        auto st = fs["state"].toString();
+        if (st=="USEABLE") {
+            useable++;
+        } else if (st=="IMMATURATE") {
+            immaturate++;
+        } else if (st=="OVERDUE") {
+            overdue++;
+        }
+    }
+    ui->labUseable->setText(QString("可用：  %1").arg(useable));
+    ui->labImmature->setText(QString("未成熟：  %1").arg(immaturate));
+    ui->labOverdue->setText(QString("过期：  %1").arg(immaturate));
+}
+
 void MainWindow::onUpdate() {
   qDebug() << "updating...";
   if (!_helper) {
     qDebug() << "helper not ready...";
     return;
   }
+
+  //update height
+  auto height = _helper->getBlockCount();
+  ui->leHeight->setText(QString::number(height));
+
   auto balance = _helper->getBalance();
   QString str;
   if(balance >= 0) {
     str = QString("%1 lv").arg(balance, 4, 'f', 8, ' ');
   }
   ui->leBalance->setText(str);
+
+  updateSlotInfo();
 }

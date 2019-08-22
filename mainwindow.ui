@@ -271,8 +271,8 @@
      <rect>
       <x>20</x>
       <y>330</y>
-      <width>461</width>
-      <height>121</height>
+      <width>221</width>
+      <height>151</height>
      </rect>
     </property>
     <property name="title">
@@ -281,9 +281,9 @@
     <widget class="QWidget" name="horizontalLayoutWidget">
      <property name="geometry">
       <rect>
-       <x>20</x>
-       <y>20</y>
-       <width>221</width>
+       <x>10</x>
+       <y>60</y>
+       <width>191</width>
        <height>31</height>
       </rect>
      </property>
@@ -308,6 +308,116 @@
         </property>
         <property name="placeholderText">
          <string>余额未加载..</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QWidget" name="horizontalLayoutWidget_2">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>191</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_6">
+      <item>
+       <widget class="QLabel" name="height">
+        <property name="toolTip">
+         <string>默认钱包的余额信息</string>
+        </property>
+        <property name="text">
+         <string>区块高度:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="leHeight">
+        <property name="text">
+         <string/>
+        </property>
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+        <property name="placeholderText">
+         <string>高度未加载..</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="groupWallet_2">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>330</y>
+      <width>221</width>
+      <height>151</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>火石</string>
+    </property>
+    <widget class="QWidget" name="layoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>21</y>
+       <width>201</width>
+       <height>121</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QLabel" name="labIndex">
+        <property name="toolTip">
+         <string>默认钱包的余额信息</string>
+        </property>
+        <property name="text">
+         <string>周期：   </string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="labPrice">
+        <property name="toolTip">
+         <string>默认钱包的余额信息</string>
+        </property>
+        <property name="text">
+         <string>价格：   </string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="labUseable">
+        <property name="toolTip">
+         <string>默认钱包的余额信息</string>
+        </property>
+        <property name="text">
+         <string>可用：   </string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="labImmature">
+        <property name="toolTip">
+         <string>默认钱包的余额信息</string>
+        </property>
+        <property name="text">
+         <string>未成熟：   </string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="labOverdue">
+        <property name="toolTip">
+         <string>默认钱包的余额信息</string>
+        </property>
+        <property name="text">
+         <string>已过期：   </string>
         </property>
        </widget>
       </item>
@@ -363,8 +473,8 @@
    <slot>onCheckAddress()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>723</x>
-     <y>271</y>
+     <x>759</x>
+     <y>258</y>
     </hint>
     <hint type="destinationlabel">
      <x>735</x>
@@ -380,7 +490,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>385</x>
-     <y>340</y>
+     <y>337</y>
     </hint>
     <hint type="destinationlabel">
      <x>460</x>
@@ -395,8 +505,8 @@
    <slot>onAddDir()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>709</x>
-     <y>306</y>
+     <x>759</x>
+     <y>298</y>
     </hint>
     <hint type="destinationlabel">
      <x>590</x>
@@ -412,7 +522,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>73</x>
-     <y>433</y>
+     <y>535</y>
     </hint>
     <hint type="destinationlabel">
      <x>262</x>

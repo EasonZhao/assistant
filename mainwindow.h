@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <memory>
 
 namespace Ui {
 class MainWindow;
@@ -43,6 +44,8 @@ private:
     void closeEvent(QCloseEvent *);
 
     void scheduleUpdate();
+
+    void updateSlotInfo();
 
 private:
     Ui::MainWindow *ui;
