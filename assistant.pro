@@ -55,3 +55,5 @@ DISTFILES +=
 
 RESOURCES += \
     src.qrc
+
+RC_ICONS = icon.ico
