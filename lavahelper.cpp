@@ -75,7 +75,7 @@ void LavaHelper::getBlockCountAsync()
     req.setUrl(url);
     QJsonObject obj {
         {"jsonrpc", "1.0"},
-        {"id", ""},
+        {"id", "getblockcount"},
         {"method", "getblockcount"},
         {"params", QJsonArray{}}
     };
@@ -89,7 +89,11 @@ void LavaHelper::onFinished(QNetworkReply *reply)
     auto doc = QJsonDocument::fromJson(ba);
     if (doc.isObject()) {
         auto obj = doc.object();
-        if (obj["error"].toString() == "") {
+        if (obj["error"].toString() != "") {
+            //TODO: emit err signal
+            return;
+        }
+        if (obj["id"].toString() == "getblockcount") {
             emit blockCount(obj["result"].toInt());
         }
     }
