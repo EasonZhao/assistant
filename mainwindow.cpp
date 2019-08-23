@@ -57,17 +57,14 @@ void showMessageBox(QString msg) {
     msgBox.exec();
 }
 
-template<typename T, typename... Ts>
-std::unique_ptr<T> make_unique(Ts&&... params)
-{
-    return std::unique_ptr<T>(new T(std::forward<Ts>(params)...));
-}
-
 void MainWindow::loadWallet()
 {
     auto walletPath = QDir::currentPath() + "/lavad.exe";
     cliPath = QDir::currentPath() + "/lava-cli.exe";
-    _helper = make_unique<LavaHelper>(cliPath);
+    _helper = new LavaHelper(cliPath, this);
+    {
+        connect(_helper, SIGNAL(blockCount(int)), this, SLOT(onBlockCount(int)));
+    }
     if (QFile(walletPath).exists() && QFile(cliPath).exists()) {
         ui->lineEdit->setText(walletPath);
     } else {
@@ -237,8 +234,7 @@ void MainWindow::onUpdate() {
   }
 
   //update height
-  auto height = _helper->getBlockCount();
-  ui->leHeight->setText(QString::number(height));
+  _helper->getBlockCountAsync();
 
   auto balance = _helper->getBalance();
   QString str;
@@ -248,4 +244,9 @@ void MainWindow::onUpdate() {
   ui->leBalance->setText(str);
 
   updateSlotInfo();
+}
+
+void MainWindow::onBlockCount(int height)
+{
+    ui->leHeight->setText(QString::number(height));
 }

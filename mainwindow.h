@@ -34,7 +34,10 @@ private slots:
     void onSearchAddress();
 
     void on_loadWalletClciked();
+
     void onUpdate();
+
+    void onBlockCount(int);
 
 private:
     void loadWallet();
@@ -55,7 +58,7 @@ private:
     QString minerPath;
     QString cfgPath;
     MinerThread *thd;
-    std::unique_ptr<LavaHelper> _helper;
+    LavaHelper *_helper;
 };
 
 #endif // MAINWINDOW_H

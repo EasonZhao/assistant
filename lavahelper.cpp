@@ -3,11 +3,20 @@
 #include <qdebug.h>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QNetworkRequest>
+#include <QNetworkReply>
+#include <QNetworkAccessManager>
 
 const QStringList WalletParams({ "-testnet", "-rpcuser=test", "-rpcpassword=test" });
 
-LavaHelper::LavaHelper(const QString& cliPath): _cliPath(cliPath)
+QString LavaHelper::urlStr = QString("http://test:test@127.0.0.1:18332");
+
+LavaHelper::LavaHelper(const QString& cliPath, QObject *parent)
+    : QObject (parent),
+      _cliPath(cliPath),
+      manager(new QNetworkAccessManager(this))
 {
+    connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onFinished(QNetworkReply*)));
 }
 
 double LavaHelper::getBalance() {
@@ -56,6 +65,34 @@ QJsonArray LavaHelper::getFirestone(const QString addr)
         qDebug()<< "===> QJsonDocument："<< ba;
     }
     return doc.array();
+}
+
+void LavaHelper::getBlockCountAsync()
+{
+    QNetworkRequest req;
+    req.setRawHeader("Content-Type", "application/json");
+    QUrl url(urlStr);
+    req.setUrl(url);
+    QJsonObject obj {
+        {"jsonrpc", "1.0"},
+        {"id", ""},
+        {"method", "getblockcount"},
+        {"params", QJsonArray{}}
+    };
+    manager->post(req, QJsonDocument(obj).toJson());
+}
+
+void LavaHelper::onFinished(QNetworkReply *reply)
+{
+    auto ba = reply->readAll();
+    qDebug() << "http client reply: " << QString(ba);
+    auto doc = QJsonDocument::fromJson(ba);
+    if (doc.isObject()) {
+        auto obj = doc.object();
+        if (obj["error"].toString() == "") {
+            emit blockCount(obj["result"].toInt());
+        }
+    }
 }
 
 QString LavaHelper::execCliAndGetOutput(const QStringList& args) {
